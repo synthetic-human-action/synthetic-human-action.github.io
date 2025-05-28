@@ -1,1 +1,0 @@
-# synthetic-human-action.github.io

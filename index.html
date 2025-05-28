@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthetic Human Action Video Data Generation with Pose Transfer</title>
+    <meta name="description" content="A method for generating synthetic human action video data using pose transfer with controllable 3D Gaussian avatar models.">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="robots" content="all">
+    <meta content="en_EN" property="og:locale">
+    <meta content="website" property="og:type">
+    <meta content="https://example.com/pose-transfer" property="og:url">
+    <meta content="Synthetic Human Action Video Data Generation with Pose Transfer" property="og:title">
+    <meta content="A method for generating synthetic human action video data using pose transfer" property="og:description">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@your_twitter_id">
+    <meta name="twitter:description" content="Synthetic Human Action Video Data Generation with Pose Transfer">
+    <meta name="twitter:image:src" content="assets/figures/paper-cover.jpg">
+    
+    <link rel="stylesheet" type="text/css" media="all" href="assets/stylesheets/main_free.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="clarity/clarity.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/foundation.min.css">
+    <link href="assets/fontawesome-free-6.6.0-web/css/all.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+    <script src="assets/scripts/navbar.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            "HTML-CSS": {
+              scale: 95,
+              fonts: ["Gyre-Pagella"],
+              imageFont: null,
+              undefinedFamily: "'Arial Unicode MS', cmbright"
+            },
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+              }
+          });
+    </script>
+    <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- Title Page -->
+    <div class="container blog" id="first-content" style="background-color: #E0E4E6;">
+        <div class="blog-title">
+            <div class="blog-intro">
+                <div>
+                    <h1 class="title"><b>Synthetic Human Action Video Data Generation with Pose Transfer</b></h1>
+                    <p class="author">
+                        <a href="">Vaclav Knapp</a> <sup>1</sup> and <a href="">Maty Bohacek</a> <sup>2</sup>
+                    </p>
+                    <p class="author" style="padding-top: 0px;">
+                        <sup>1</sup> SSPS <br>
+                        <sup>2</sup> Stanford University
+                    </p>
+                    <p class="abstract">
+                        In video understanding tasks, particularly those involving human motion, synthetic data generation often suffers from uncanny features, diminishing its effectiveness for training. Tasks such as sign language translation, gesture recognition, and human motion understanding in autonomous driving have thus been unable to exploit the full potential of synthetic data. This paper proposes a method for generating synthetic human action video data using pose transfer (specifically, controllable 3D Gaussian avatar models). We evaluate this method on the Toyota Smarthome and NTU RGB+D datasets and show that it improves performance in action recognition tasks. Moreover, we demonstrate that the method can effectively scale few-shot datasets, making up for groups underrepresented in the real training data and adding diverse backgrounds. We open-source the method along with RANDOM People, a dataset with videos and avatars of novel human identities for pose transfer crowd-sourced from the internet.
+                    </p>
+
+                    <div class="info">
+                        <div>
+                            <a href="" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)"> Paper <i class="fa-solid fa-book-open"></i></a> &nbsp;&nbsp; 
+                            <a href="" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)">Code <i class="fa-solid fa-code"></i></a>  &nbsp;&nbsp; 
+                            <a href="" class="button icon" style="background-color: rgba(255, 255, 255, 0.2);">Data <i class="fa-regular fa-database"></i></a> &nbsp;&nbsp; 
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="info">
+                    <p>CVPR 2025</p>
+                </div>
+            </div>
+
+            <div class="blog-cover">
+                <!-- ADD FIGURE 1 HERE: Examples of synthetic video frames showing human actions -->
+                <img class="foreground" src="assets/figures/figure1-examples.png">
+                <img class="background" src="assets/figures/figure1-examples.png">
+            </div>
+        </div>
+    </div>
+
+    <div class="container blog main first" id="blog-main">
+        <h1>Introduction</h1>
+        <p class='text'>
+            As large-scale training datasets proved essential for generalization in AI models, synthetic data generation has become increasingly important in domains where data at scale is unavailable. In video understanding tasks, particularly those involving human motion, synthetic data generation often suffers from uncanny features, diminishing its effectiveness for training. Tasks such as sign language translation, gesture recognition, and human motion understanding in autonomous driving have thus been unable to exploit the full potential of synthetic data.
+        </p>
+        <p class='text'>
+            Recent work has focused on bridging classic computer graphics approaches with generative AI techniques, leveraging the versatility and photorealistic content generation capabilities of generative models while grounding them in physical models of the human body that provide full control over the resulting action. Our method employs a modified ExAvatar 3D Gaussian framework as our avatar animation backbone to generate synthetic human action videos.
+        </p>
+    </div>
+
+    <div class="container blog main gray">
+        <!-- ADD FIGURE 2 HERE: Overview of the method -->
+        
+    </div>
+
+    <div class="container blog main">
+        <h1>Method</h1>
+        <p class="text">
+            Our method extends existing datasets by using real videos as reference human actions that are reenacted by novel identities in new settings. The method consists of three main stages: (1) avatar creation, (2) reference video preparation, and (3) animation.
+        </p>
+
+        <h2>Avatar Creation</h2>
+        <p class="text">
+            For each novel human identity, we create an expressive whole-body avatar using ExAvatar, which yields fully controllable 3D Gaussian avatars. We extract multiple features including 3D pose meshes (SMPL-X), depth maps, body keypoints, identity segmentation masks, facial expressions, and hand poses.
+        </p>
+
+        <h2>Animation</h2>
+        <p class="text">
+            With the set of novel identity avatars and reference video features, we generate synthetic videos. For each training video and each novel identity avatar, we first generate white-background videos, then add image backgrounds to create the final synthetic videos with diverse settings.
+        </p>
+    </div>
+
+    <div class="container blog main gray">
+         <img src="assets/figures/figure2-method-overview.png">
+        <p class="caption">
+            Overview of our method for synthetic human action video data generation. The method takes reference videos T, novel identity videos I, and background images B as input, and generates synthetic videos where identities are animated to reenact actions from reference videos.
+        </p>
+    </div>
+
+    <div class="container blog main">
+        <h1>RANDOM People Dataset</h1>
+        <p class="text">
+            We introduce the RANDOM People dataset (Reconstructed AI-generated Neural Dataset Of Motion), which contains synthesized videos, novel human identity videos along with their avatars, and scene background images. The dataset includes recordings of 188 participants crowd-sourced through Prolific, filtered to 100 high-quality videos that met our criteria.
+        </p>
+        <p class="text">
+            The participants were chosen from a stratified sample of residents of the United States. The dataset contains 41 people who identify as male and 59 people who identify as female, with diverse racial representation and ages ranging from 19 to 64 years.
+        </p>
+    </div>
+
+    <div class="container blog main gray">
+         <img src="assets/figures/figure3-identity-videos.png">
+        <p class="caption">
+            Representative frames from the novel human identity videos in the RANDOM People dataset. Participants performed three slow 360 rotations with varying hand positions.
+        </p>
+    </div>
+
+    <div class="container blog main">
+        <h1>Experiments and Results</h1>
+        <p class="text">
+            We conducted three sets of experiments—baseline, one-shot, and few-shot—on both Toyota Smarthome and NTU RGB+D datasets using ResNet and SlowFast architectures.
+        </p>
+
+        <h2>Baseline Experiments</h2>
+        <p class="text">
+            Our results demonstrate significant improvements when incorporating synthetic data. ResNet achieved accuracy improvements from 20% to 51% on Toyota Smarthome and from 9% to 43% on NTU RGB+D. SlowFast showed similar improvements, going from 38% to 56% on Toyota Smarthome and from 27% to 36% on NTU RGB+D.
+        </p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead class="center">
+                    <tr>
+                        <th>Method</th>
+                        <th>Original</th>
+                        <th>Synthetic</th>
+                        <th>Toyota</th>
+                        <th>NTU RGB+D</th>
+                    </tr>
+                </thead>
+                <tbody class="center">
+                    <tr>
+                        <td>ResNet</td>
+                        <td>✓</td>
+                        <td></td>
+                        <td>20.46</td>
+                        <td>08.66</td>
+                    </tr>
+                    <tr>
+                        <td>ResNet</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>51.15</td>
+                        <td>42.98</td>
+                    </tr>
+                    <tr>
+                        <td>SlowFast</td>
+                        <td>✓</td>
+                        <td></td>
+                        <td>38.35</td>
+                        <td>26.75</td>
+                    </tr>
+                    <tr>
+                        <td>SlowFast</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>55.64</td>
+                        <td>36.29</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Few-shot and One-shot Learning</h2>
+        <p class="text">
+            Our synthetic data proves particularly effective for few-shot learning scenarios. With Toyota Smarthome, performance improved from 13% to 23% in few-shot settings. For NTU RGB+D, performance improved from 7% (chance level) to 23% at the highest synthetic sample count.
+        </p>
+    </div>
+
+    <div class="container blog main gray">
+        <!-- ADD FIGURES 6 & 7 HERE: Testing accuracy graphs -->
+        <div class="columns-2">
+            <div>
+                <img src="assets/figures/figure6-toyota-results.png">
+                <p class="caption">Testing accuracy on Toyota Smarthome dataset for one-shot and few-shot learning with increasing synthetic samples.</p>
+            </div>
+            <div>
+                <img src="assets/figures/figure7-ntu-results.png">
+                <p class="caption">Testing accuracy on NTU RGB+D dataset for one-shot and few-shot learning with increasing synthetic samples.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container blog main">
+        <h1>Qualitative Results</h1>
+        <p class="text">
+            We provide qualitative evaluation of our synthetic videos. Most synthetic videos were consistent with the source videos in terms of pose and scene placement. However, in some cases, the generated videos deviated from the source poses and scene alignment due to limitations in the pose transfer framework.
+        </p>
+    </div>
+
+    <div class="container blog main gray">
+        <!-- ADD FIGURES 8-11 HERE: Qualitative comparison examples -->
+        <div class="columns-2">
+            <div>
+                <img src="assets/figures/figure8-consistent-toyota.png">
+                <p class="caption">Examples showing consistent pose alignment between source and generated videos (Toyota Smarthome).</p>
+            </div>
+            <div>
+                <img src="assets/figures/figure9-inconsistent-toyota.png">
+                <p class="caption">Examples showing inconsistent pose alignment between source and generated videos (Toyota Smarthome).</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container blog main">
+        <h1>Limitations</h1>
+        <p class="text">
+            Our method has several limitations that can be categorized into those stemming from the pose transfer framework and those introduced by our method. The ExAvatar framework cannot generate videos with multiple people or convincingly handle actions involving object interactions. Our method may generate physically implausible poses when superimposed on background images and may place actions in inappropriate settings.
+        </p>
+    </div>
+
+    <div class="container blog main gray">
+        <!-- ADD FIGURES 12-13 HERE: Limitation examples -->
+        <div class="columns-2">
+            <div>
+                <img src="assets/figures/figure12-limitation-l3.png">
+                <p class="caption">Examples illustrating limitation L3: physically implausible pose placement in scenes.</p>
+            </div>
+            <div>
+                <img src="assets/figures/figure13-limitation-l4.png">
+                <p class="caption">Examples illustrating limitation L4: actions generated in inappropriate settings (e.g., cooking actions in living room).</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container blog main">
+        <h1>Conclusion</h1>
+        <p class="text">
+            We introduce a novel framework for synthetic data generation of human action videos by leveraging a modified ExAvatar framework for 3D Gaussian avatar animation. Our method reenacts human actions from reference videos using novel human identities in varied settings, addressing limitations in photorealism and semantic control that have hindered previous synthetic data generation methods.
+        </p>
+        <p class="text">
+            We demonstrate notable improvements in action recognition performance across baseline, one-shot, and few-shot learning scenarios on Toyota Smarthome and NTU RGB+D datasets. We also present the RANDOM People dataset, which contains synthetic videos, novel human identity videos along with their avatars, and scene background images, all open-sourced for the research community.
+        </p>
+    </div>
+
+    <div class="container blog main">
+        <h1>Citation</h1>
+<pre><code class="plaintext">@article{knapp2025synthetic,
+  title={Synthetic Human Action Video Data Generation with Pose Transfer},
+  author={Knapp, Vaclav and Bohacek, Matyas},
+  journal={CVPR},
+  year={2025}
+}</code></pre>
+    </div>
+
+    <!-- Footer Page -->
+    <footer>
+        <div class="container">
+            <p style="font-size: small;">
+                Last updated January 2025. This website is built on the <a href="https://shikun.io/projects/clarity" style="font-size: small;">Clarity Template</a>, designed by <a href="https://shikun.io/" style="font-size: small;">Shikun Liu</a>.
+            </p>
+        </div>    
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="clarity/clarity.js"></script>    
+    <script src="assets/scripts/main.js"></script>    
+</body>
+</html>
