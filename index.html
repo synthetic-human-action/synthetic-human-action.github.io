@@ -65,9 +65,9 @@
 
                     <div class="info">
                         <div>
-                            <a href="" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)"> Paper <i class="fa-solid fa-book-open"></i></a> &nbsp;&nbsp; 
-                            <a href="" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)">Code <i class="fa-solid fa-code"></i></a>  &nbsp;&nbsp; 
-                            <a href="" class="button icon" style="background-color: rgba(255, 255, 255, 0.2);">Data <i class="fa-regular fa-database"></i></a> &nbsp;&nbsp; 
+                            <a href="https://openreview.net/pdf?id=KTXL0idiky" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)"> Paper <i class="fa-solid fa-book-open"></i></a> &nbsp;&nbsp; 
+                            <a href="https://github.com/matyasbohacek/synthetic-action-pose-transfer/" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)">Code <i class="fa-solid fa-code"></i></a>  &nbsp;&nbsp; 
+                            <a href="https://huggingface.co/datasets/matybohacek/RANDOM-People" class="button icon" style="background-color: rgba(255, 255, 255, 0.2);">Data <i class="fa-solid fa-database"></i></a> &nbsp;&nbsp; 
                         </div>
                     </div>
                 </div>
@@ -79,8 +79,8 @@
 
             <div class="blog-cover">
                 <!-- ADD FIGURE 1 HERE: Examples of synthetic video frames showing human actions -->
-                <img class="foreground" src="assets/figures/figure1-examples.png">
-                <img class="background" src="assets/figures/figure1-examples.png">
+                <img class="foreground" src="assets/figures/cover.png">
+                <img class="background" src="assets/figures/cover.png">
             </div>
         </div>
     </div>
@@ -96,8 +96,10 @@
     </div>
 
     <div class="container blog main gray">
-        <!-- ADD FIGURE 2 HERE: Overview of the method -->
-        
+        <img src="assets/figures/teaser.gif">
+        <p class="caption">
+            Representative examples of synthetic human action videos generated using our method, placing a diverse set of novel identities into scenes outside of the original dataset distribution. 
+        </p>
     </div>
 
     <div class="container blog main">
@@ -118,7 +120,7 @@
     </div>
 
     <div class="container blog main gray">
-         <img src="assets/figures/figure2-method-overview.png">
+         <img src="assets/figures/method-overview.png">
         <p class="caption">
             Overview of our method for synthetic human action video data generation. The method takes reference videos T, novel identity videos I, and background images B as input, and generates synthetic videos where identities are animated to reenact actions from reference videos.
         </p>
@@ -135,7 +137,7 @@
     </div>
 
     <div class="container blog main gray">
-         <img src="assets/figures/figure3-identity-videos.png">
+         <img src="assets/figures/random-people-examples.png">
         <p class="caption">
             Representative frames from the novel human identity videos in the RANDOM People dataset. Participants performed three slow 360 rotations with varying hand positions.
         </p>
@@ -206,11 +208,11 @@
         <!-- ADD FIGURES 6 & 7 HERE: Testing accuracy graphs -->
         <div class="columns-2">
             <div>
-                <img src="assets/figures/figure6-toyota-results.png">
+                <img src="assets/figures/toyota-shots.png">
                 <p class="caption">Testing accuracy on Toyota Smarthome dataset for one-shot and few-shot learning with increasing synthetic samples.</p>
             </div>
             <div>
-                <img src="assets/figures/figure7-ntu-results.png">
+                <img src="assets/figures/NTU-shots.png">
                 <p class="caption">Testing accuracy on NTU RGB+D dataset for one-shot and few-shot learning with increasing synthetic samples.</p>
             </div>
         </div>
@@ -227,12 +229,12 @@
         <!-- ADD FIGURES 8-11 HERE: Qualitative comparison examples -->
         <div class="columns-2">
             <div>
-                <img src="assets/figures/figure8-consistent-toyota.png">
-                <p class="caption">Examples showing consistent pose alignment between source and generated videos (Toyota Smarthome).</p>
+                <img src="assets/figures/consistent.png">
+                <p class="caption">Examples showing consistent pose alignment between source and generated videos.</p>
             </div>
             <div>
-                <img src="assets/figures/figure9-inconsistent-toyota.png">
-                <p class="caption">Examples showing inconsistent pose alignment between source and generated videos (Toyota Smarthome).</p>
+                <img src="assets/figures/inconsistent.png">
+                <p class="caption">Examples showing inconsistent pose alignment between source and generated videos.</p>
             </div>
         </div>
     </div>
@@ -248,11 +250,11 @@
         <!-- ADD FIGURES 12-13 HERE: Limitation examples -->
         <div class="columns-2">
             <div>
-                <img src="assets/figures/figure12-limitation-l3.png">
+                <img src="assets/figures/l3.png">
                 <p class="caption">Examples illustrating limitation L3: physically implausible pose placement in scenes.</p>
             </div>
             <div>
-                <img src="assets/figures/figure13-limitation-l4.png">
+                <img src="assets/figures/l4.png">
                 <p class="caption">Examples illustrating limitation L4: actions generated in inappropriate settings (e.g., cooking actions in living room).</p>
             </div>
         </div>
@@ -270,7 +272,10 @@
 
     <div class="container blog main">
         <h1>Citation</h1>
-<pre><code class="plaintext">TBD from arxiv
+<pre><code class="plaintext">@inproceedings{knapp2025synthetic,
+  title={Synthetic Human Action Video Data Generation with Pose Transfer},
+  author={Knapp, Vaclav and Bohacek, Matyas},
+  booktitle={Synthetic Data for Computer Vision Workshop @ CVPR 2025}
 }</code></pre>
     </div>
 
